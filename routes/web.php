@@ -20,8 +20,6 @@ Route::get('/', function () {
     return view('app');
 });
 
-// Route::resource('products', ProductsController::class);
-
 Route::get('/products', [ProductsController::class,'index']);
 Route::post('/products',[ProductsController::class,'store']);
 Route::put('/products/{id}',[ProductsController::class,'update']);

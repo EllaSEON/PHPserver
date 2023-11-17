@@ -10,7 +10,7 @@ class ProductsController extends Controller
   // 제품 목록 가져오기 
   public function index()
   {
-    $products = Product::all();
+    $products = Product::all(); // Product 모델에 있는 테이블에 있는 모든 상품 조회
     return response()->json($products);
   }
 
