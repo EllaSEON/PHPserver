@@ -7,49 +7,55 @@ use App\Models\Product;
 
 class ProductsController extends Controller
 {
-  // 제품 목록 가져오기 (Read)
+  // 제품 목록 가져오기 
   public function index()
   {
-      return Product::all();
+    $products = Product::all();
+    return response()->json($products);
   }
 
-  // 새 제품 추가 (Create)
-  public function store(Request $request)
-  {
-      $validatedData = $request->validate([
-          'name' => 'required|max:255',
-          'description' => 'required',
-          'price' => 'required|numeric'
-      ]);
+    // 새 상품 추가
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:15',
+            'description' => 'required|max:50',
+            'price' => 'required|integer'
+        ]);
 
-      return Product::create($validatedData);
-  }
+        $product = Product::create($validatedData);
 
-  // 특정 제품 가져오기 (Read)
-  public function show(Product $product)
-  {
-      return $product;
-  }
+        return response()->json($product, 201);
+    }
 
-  // 제품 업데이트 (Update)
-  public function update(Request $request, Product $product)
-  {
-      $validatedData = $request->validate([
-          'name' => 'required|max:255',
-          'description' => 'required',
-          'price' => 'required|numeric'
-      ]);
+    // 제품 정보 수정
+    public function update(Request $request, $id)
+    {
+        // 유효성 검사
+        $validatedData = $request->validate([
+            'name' => 'required|max:15',
+            'description' => 'required|max:50',
+            'price' => 'required|integer'
+        ]);
 
-      $product->update($validatedData);
+        // 제품 찾기, 없으면 404 응답
+        $product = Product::findOrFail($id);
 
-      return $product;
-  }
+        // 제품 정보 업데이트
+        $product->update($validatedData);
 
-  // 제품 삭제 (Delete)
-  public function destroy(Product $product)
-  {
-      $product->delete();
+        // 업데이트된 제품 정보 반환
+        return response()->json($product, 200);
+    }
 
-      return response()->json(['message' => 'Product deleted successfully']);
-  }
+
+
+    // 제품 삭제 
+    public function destroy($id)
+        {
+            $product = Product::findOrFail($id);
+            $product->delete();
+
+            return response()->json(['message' => '상품이 성공적으로 삭제되었습니다.']);
+        }
 }

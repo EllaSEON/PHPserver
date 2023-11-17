@@ -23,9 +23,10 @@
     <div id="app"></div>
     <h1>상품 목록</h1>
     <ul>
-        <!-- @foreach ($products as $product)
-            <li>{{ $product->name }}: {{ $product->description }} - {{ $product->price }}원</li>
-        @endforeach -->
+        <label for="productName">상품명 : </label>
+        <input type="text" id="productName" />
+        <label for="productDescription"> 상품설명 : </label>
+        <input type="text" id="productDescription" />
     </ul>
     </body>
 </html>
